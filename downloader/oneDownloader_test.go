@@ -172,6 +172,29 @@ func Test_filterReleaseFiles(t *testing.T) {
 			},
 			1,
 		},
+		{
+			"ExecutorProject",
+			args{
+				list: []ReleaseFileInfo{
+					{
+						"Дистрибутив 1С:Исполнитель (X) Linux",
+						"/version_file?nick=Executor&ver=2.1.1.1&path=Executor%5C2_1_1_1%5Cexecutor_x_linux_2_1_1_1.zip",
+					},
+					{
+						"Дистрибутив 1С:Исполнитель (U)",
+						"/version_file?nick=Executor&ver=2.1.1.1&path=Executor%5C2_1_1_1%5Cexecutor_u_2_1_1_1.zip",
+					}, {
+						"Дистрибутив 1С:Исполнитель (X) Windows",
+						"/version_file?nick=Executor&ver=2.1.1.1&path=Executor%5C2_1_1_1%5Cexecutor_x_windows_2_1_1_1.zip",
+					},
+				},
+				filters: []FileFilter{
+					regexp.MustCompile("Дистрибутив 1С:Исполнитель \\(U\\)"),
+					NewFileFilterMust(ExecutorProject, "win.x"),
+				},
+			},
+			2,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
